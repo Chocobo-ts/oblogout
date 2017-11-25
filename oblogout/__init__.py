@@ -53,15 +53,16 @@ except:
     sys.exit()
 
 class OpenboxLogout():
-
-    cmd_shutdown = "shutdown -h now"
-    cmd_restart = "reboot"
-    cmd_suspend = "pmi action suspend"
-    cmd_hibernate = "pmi action hibernate"
+	
+    cmd_shutdown = 'dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.PowerOff" boolean:true'
+    cmd_restart = 'dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Reboot" boolean:true'
+    cmd_suspend = 'dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Suspend" boolean:true'
+    cmd_hibernate = 'dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 "org.freedesktop.login1.Manager.Hibernate" boolean:true'
     cmd_safesuspend = ""
-    cmd_lock = "gnome-screensaver-command -l"
-    cmd_switch = "gdm-control --switch-user"
-    cmd_logout = "openbox --exit"
+    cmd_lock = "blurlock"
+    cmd_switchuser = "gdm-control --switch-user"
+    cmd_logout = "killall -QUIT $MDMSESSION"
+
 
     def __init__(self, config=None, local=None):
       
@@ -138,7 +139,7 @@ class OpenboxLogout():
             self.logger.debug("Rendering Fade")
             # Convert Pixbuf to PIL Image
             wh = (pb.get_width(),pb.get_height())
-            pilimg = Image.fromstring("RGB", wh, pb.get_pixels())
+            pilimg = Image.frombytes("RGB", wh, pb.get_pixels())
             
             pilimg = pilimg.point(lambda p: (p * self.opacity) / 255 )
 
