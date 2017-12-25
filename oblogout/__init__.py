@@ -99,11 +99,11 @@ class OpenboxLogout():
             # Window isn't composited, enable rendered effects
             self.rendered_effects = True
         else:
-            # Link in Cairo rendering events
-            self.window.connect('expose-event', self.on_expose)
-            self.window.connect('screen-changed', self.on_screen_changed)
-            self.on_screen_changed(self.window)
-            self.rendered_effects = False
+            # Link in Cairo rendering events [disabled]
+            #self.window.connect('expose-event', self.on_expose)
+            #self.window.connect('screen-changed', self.on_screen_changed)
+            #self.on_screen_changed(self.window)
+            self.rendered_effects = True
         
         self.window.set_size_request(620,200)
         self.window.modify_bg(gtk.STATE_NORMAL, gtk.gdk.color_parse("black"))
@@ -317,8 +317,8 @@ class OpenboxLogout():
             colormap = screen.get_rgb_colormap()
             self.supports_alpha = False
         else:
-            self.logger.debug("Screen supports alpha channels!")
-            self.supports_alpha = True
+            self.logger.debug("Screen supports alpha channels! But don't even care")
+            self.supports_alpha = False
     
         # Now we have a colormap appropriate for the screen, use it
         widget.set_colormap(colormap)
